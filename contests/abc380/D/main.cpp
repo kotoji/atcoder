@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <bit>
 #include <bitset>
 #include <cassert>
 #include <cmath>
@@ -19,25 +20,17 @@
 #include <vector>
 using namespace std;
 
-char reverse(char c) {
-  if (c > 'Z') {
-    return 'A' + c - 'a';
+char reverse_case(char c) {
+  if (std::islower(c)) {
+    return std::toupper(c);
   } else {
-    return 'a' + c - 'A';
+    return std::tolower(c);
   }
 }
 char solve(std::string &&S, long K) {
-  long long len = std::size(S);
-  long count = 0;
-  long long index = K;
-  while (len <= index) {
-    int N = 0;
-    for (N = 0; len * (1 << (N + 1)) < index; N++) {
-    }
-    index = index % (len * (1 << N));
-    count++;
-  }
-  return count % 2 == 0 ? S[index] : reverse(S[index]);
+  int cnt = std::popcount(K / std::size(S));
+  int idx = K % std::size(S);
+  return cnt % 2 == 0 ? S[idx] : reverse_case(S[idx]);
 }
 
 int main() {
