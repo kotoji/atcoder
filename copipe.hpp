@@ -37,12 +37,13 @@ template <typename T> using vec3 = vector<vector<vector<T>>>;
 #define init() cin.tie(0), ios::sync_with_stdio(0)
 #define debug(x) std::cerr << #x << " = " << (x) << std::endl
 
-template <typename T, typename Fn> inline vector<T> fmap(Fn f, vector<T> &&xs) {
-  static_assert(is_same<invoke_result_t<Fn, T>, T>::value);
+template <typename T, typename Fn>
+inline decltype(auto) fmap(Fn f, vector<T> &&xs) {
+  vector<invoke_result_t<Fn, T>> ys(xs.size());
   for (size_t i = 0; i < xs.size(); i++) {
-    xs[i] = f(xs[i]);
+    ys[i] = f(xs[i]);
   }
-  return xs;
+  return ys;
 }
 template <typename T, typename Fn>
 inline decltype(auto) fmap(Fn f, const vector<T> &xs) {
