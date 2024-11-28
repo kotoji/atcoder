@@ -3,8 +3,12 @@ ALL: test
 PHONY: test
 test:
 	@mkdir -p .build
-	@g++ -std=c++20 -o .build/test copipe_test.cpp
-	@./.build/test
+	@clang++ -std=c++20 -o .build/a.out template_test.cpp
+	@./.build/a.out
+
+PHONY: setup
+setup:
+	@ln -s ./config ~/.atcodertools.toml
 
 PHONY: install/tools
 install/tools:
