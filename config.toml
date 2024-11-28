@@ -1,0 +1,17 @@
+[codestyle]
+indent_type = 'space'            # 'tab' or 'space'
+indent_width = 2
+workspace_dir = './contests/'
+lang = 'cpp'                     # 'cpp' or 'java' (Currently)
+template_file = './template.cpp'
+[compiler]
+compile_command = 'clang++ main.cpp -o main -std=c++20'
+[tester]
+compile_before_testing = true
+[etc]
+download_without_login = false
+parallel_download = false
+save_no_session_cache = false
+skip_existing_problems = false
+in_example_format = "in_{}.txt"
+out_example_format = "out_{}.txt"

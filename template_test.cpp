@@ -1,4 +1,4 @@
-#include "copipe.hpp"
+#include "template.cpp"
 
 void test_fmap() {
   {
