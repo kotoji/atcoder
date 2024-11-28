@@ -141,19 +141,20 @@ template <typename T, typename Int> inline void readln(vector<T> &xs, Int &n) {
 };
 
 void solve(long long N, long long K, std::string S) {
-  vec<llong> xs = fmap(
-      [K](size_t x) { return (llong)x / K; },
-      fmap([](const string &x) { return x.size(); },
-           filter([](const string &xs) { return xs[0] == 'O'; }, split(S))));
-  cout << accumulate(all(xs), 0LL) << endl;
+  vec<size_t> sizes =
+      fmap([](const string &s) { return s.size(); },
+           filter([](const string &s) { return s[0] == 'O'; }, split(S)));
+
+  llong count = 0;
+  rep(i, 0, sizes.size()) { count += sizes[i] / K; }
+  cout << count << endl;
 }
 
 int main() {
-  init();
   long long N;
-  cin >> N;
+  std::scanf("%lld", &N);
   long long K;
-  cin >> K;
+  std::scanf("%lld", &K);
   std::string S;
   std::cin >> S;
   solve(N, K, S);

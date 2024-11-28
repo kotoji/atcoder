@@ -140,30 +140,24 @@ template <typename T, typename Int> inline void readln(vector<T> &xs, Int &n) {
   }
 };
 
-void solve(long long N, long long M, std::vector<long long> X,
-           std::vector<long long> A) {
-  vec<pair<llong, llong>> stones;
-  rep(i, 0, M) { stones.push_back({X[i], A[i]}); }
-  sort(all(stones), [](auto a, auto b) { return a.first < b.first; });
-
-  llong n = 0;
+llong solve(long long N, long long M, std::vector<long long> X,
+            std::vector<long long> A) {
+  vec<pair<llong, llong>> xs(M);
+  rep(i, 0, M) { xs[i] = {X[i], A[i]}; }
+  sort(all(xs), [](auto a, auto b) { return a.first < b.first; });
   llong count = (N * (N + 1)) / 2;
-
-  for (llong i = 0; i < M; i++) {
-    if (n + 1 < stones[i].first) {
-      cout << -1 << endl;
-      return;
+  llong n = 0;
+  rep(i, 0, M) {
+    if (n + 1 < xs[i].first) {
+      return -1;
     }
-    n += stones[i].second;
-    count -= stones[i].first * stones[i].second;
+    n += xs[i].second;
+    count -= xs[i].first * xs[i].second;
   }
-
   if (n != N) {
-    cout << -1 << endl;
-    return;
+    return -1;
   }
-
-  cout << count << endl;
+  return count;
 }
 
 int main() {
@@ -179,6 +173,7 @@ int main() {
   for (int i = 0; i < M; i++) {
     std::scanf("%lld", &A[i]);
   }
-  solve(N, M, std::move(X), std::move(A));
+  llong ans = solve(N, M, std::move(X), std::move(A));
+  cout << ans << endl;
   return 0;
 }

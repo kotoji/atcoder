@@ -35,12 +35,13 @@ template <typename T> using vec3 = vector<vector<vector<T>>>;
 #define init() cin.tie(0), ios::sync_with_stdio(0)
 #define debug(x) std::cerr << #x << " = " << (x) << std::endl
 
-template <typename T, typename Fn> inline vector<T> fmap(Fn f, vector<T> &&xs) {
-  static_assert(is_same<invoke_result_t<Fn, T>, T>::value);
+template <typename T, typename Fn>
+inline decltype(auto) fmap(Fn f, vector<T> &&xs) {
+  vector<invoke_result_t<Fn, T>> ys(xs.size());
   for (size_t i = 0; i < xs.size(); i++) {
-    xs[i] = f(xs[i]);
+    ys[i] = f(xs[i]);
   }
-  return xs;
+  return ys;
 }
 template <typename T, typename Fn>
 inline decltype(auto) fmap(Fn f, const vector<T> &xs) {
@@ -139,11 +140,23 @@ template <typename T, typename Int> inline void readln(vector<T> &xs, Int &n) {
   }
 };
 
+void solve(long long N, long long K, std::string S) {
+  vec<size_t> sizes =
+      fmap([](const string &s) { return s.size(); },
+           filter([](const string &s) { return s[0] == 'O'; }, split(S)));
+
+  llong count = 0;
+  rep(i, 0, sizes.size()) { count += sizes[i] / K; }
+  cout << count << endl;
+}
+
 int main() {
-  init();
-  string s;
-  cin >> s;
-  cout << s[1] << s[2] << s[0] << " ";
-  cout << s[2] << s[0] << s[1] << endl;
+  long long N;
+  std::scanf("%lld", &N);
+  long long K;
+  std::scanf("%lld", &K);
+  std::string S;
+  std::cin >> S;
+  solve(N, K, S);
   return 0;
 }
