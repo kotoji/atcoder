@@ -140,7 +140,40 @@ template <typename T, typename Int> inline void readln(vector<T> &xs, Int &n) {
   }
 };
 
+// DFS による全列挙 (枝狩りはする)
 int main() {
-  //
+  int N, M;
+  cin >> N >> M;
+  vec<vec<int>> ans;
+  vec<int> st;
+  st.push_back(1);
+  while (true) {
+    int len = st.size();
+    if (st.size() == N) {
+      vec<int> tmp(N);
+      copy(all(st), tmp.begin());
+      ans.push_back(tmp);
+      if (st[len - 1] == M) {
+        st.pop_back();
+        st[st.size() - 1]++;
+        continue;
+      }
+      st[st.size() - 1]++;
+      continue;
+    }
+    if (st[len - 1] + 10 * (N - len) > M) {
+      if (st.size() == 1) {
+        break;
+      }
+      st.pop_back();
+      st[st.size() - 1]++;
+      continue;
+    }
+    llong a = st[len - 1];
+    st.push_back(a + 10);
+  }
+
+  cout << ans.size() << endl;
+  rep(i, 0, ans.size()) { println(ans[i], " "); }
   return 0;
 }
